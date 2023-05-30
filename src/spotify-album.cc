@@ -47,6 +47,7 @@ int main(int argc, char *argv[]) {
   defaults.hardware_mapping = "adafruit-hat";
   defaults.rows = 64;
   defaults.cols = 64;
+  // defaults.brightness = 50;
 
   Canvas *canvas = RGBMatrix::CreateFromFlags(&argc, &argv, &defaults);
   if (canvas == NULL)
@@ -60,7 +61,8 @@ int main(int argc, char *argv[]) {
 
 
   while(!interrupt_received){
-    DrawOnCanvas(canvas);    // Using the canvas.
+    canvas->Fill(0,255,0);
+    // DrawOnCanvas(canvas);    // Using the canvas.
   }
 
   // Animation finished. Shut down the RGB matrix.
