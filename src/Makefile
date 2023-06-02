@@ -1,7 +1,7 @@
-CFLAGS=-Wall -O3 -g -Wextra -Wno-unused-parameter -DDISABLE_HARDWARE_PULSES -DDEFAULT_HARDWARE=adafruit-hat
+CFLAGS=-Wall -O3 -g -DDISABLE_HARDWARE_PULSES -DDEFAULT_HARDWARE=adafruit-hat
 CXXFLAGS=$(CFLAGS)
-OBJECTS=spotify-album.o
-BINARIES=spotify-album
+OBJECTS=spotify-album.o spotify-authentication.o demo-main.o
+BINARIES=spotify-album spotify-authentication demo
 
 # Where our library resides. You mostly only need to change the
 # RGB_LIB_DISTRIBUTION, this is where the library is checked out.
@@ -17,9 +17,15 @@ all : $(BINARIES)
 $(RGB_LIBRARY): FORCE
 	$(MAKE) -C $(RGB_LIBDIR)
 
+demo : demo-main.o $(RGB_LIBRARY)
+	$(CXX) $< -o $@ $(LDFLAGS)
+
 spotify-album : spotify-album.o $(RGB_LIBRARY)
 	$(CXX) $< -o $@ $(LDFLAGS)
 
+spotify-authentication : spotify-authentication.o $(RGB_LIBRARY)
+	$(CXX) $< -o $@ $(LDFLAGS) -lcurl
+	
 # All the binaries that have the same name as the object file.q
 % : %.o $(RGB_LIBRARY)
 	$(CXX) $< -o $@ $(LDFLAGS)
