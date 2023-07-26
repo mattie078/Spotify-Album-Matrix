@@ -1,3 +1,6 @@
+CXX = arm-linux-gnueabihf-g++
+CC = arm-linux-gnueabihf-gcc
+
 CFLAGS=-Wall -O3 -g -DDISABLE_HARDWARE_PULSES -DDEFAULT_HARDWARE=adafruit-hat
 CXXFLAGS=$(CFLAGS)
 OBJECTS=spotify-album.o spotify-authentication.o demo-main.o
