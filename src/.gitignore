@@ -1,7 +1,0 @@
-*.env
-spotify-album
-spotify-album.o
-spotify-authentication
-spotify-authentication.o
-demo
-demo-main.o

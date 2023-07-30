@@ -8,7 +8,7 @@
 
 std::string client_id;
 std::string client_secret;
-std::string redirect_uri = "http://192.168.178.158:8080/callback";
+std::string redirect_uri = "http://raspberrypi.local:8080/callback";
 std::string authorization_code;
 
 std::string base64_encode(const std::string& input) {
@@ -97,6 +97,9 @@ void handleRequest(const httplib::Request& req, httplib::Response& res) {
     headers = curl_slist_append(headers, "Content-Type: application/x-www-form-urlencoded");
 
     // Set cURL options
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYSTATUS, 0);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, false);
+
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
@@ -116,20 +119,8 @@ void handleRequest(const httplib::Request& req, httplib::Response& res) {
     }
 
     // Process the response and obtain the refresh token
-    std::map<std::string, std::string> responseData;
-    std::stringstream responseStream(response);
-    std::string line;
-    while (std::getline(responseStream, line, '&')) {
-        std::size_t equalPos = line.find('=');
-        std::string key = line.substr(0, equalPos);
-        std::string value = line.substr(equalPos + 1);
-        responseData[key] = value;
-    }
-
-    nlohmann::json json = nlohmann::json::parse(responseData);
-    std::string accessToken = json["access_token"];
-
-    std::cout << accessToken << std::endl;
+    nlohmann::json responseJson = nlohmann::json::parse(response);
+    std::cout << responseJson["access_token"] << std::endl;
 
     // Send a response if needed
     // res.set_content("Refresh Token: " + refresh_token, "text/plain");

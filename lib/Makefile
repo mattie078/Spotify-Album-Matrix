@@ -1,3 +1,6 @@
+CC            = /home/pi/rpi/tools/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc
+CXX           = /home/pi/rpi/tools/gcc-linaro-7.4.1-2019.02-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-g++
+
 # Creating RGB matrix library
 # When you link this library with your binary, you need to add -lrt -lm -lpthread
 # So
